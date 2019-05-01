@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Google Cloud Translate Demo</title>
+  </head>
+  <body>
+    <div class='container mt-3'>
+
+      <h1>Google Cloud Translate Demo</h1>
+
+      <div class='row'>
+        <div class='col'>
+          <div class="form-group">
+            <label for="txa_in">Input (EN)</label>
+            <textarea class="form-control" id="txa_in" rows="10">Want your website and apps to instantly translate texts into more than one hundred languages? Translation API uses Google’s pre-trained neural machine translation to deliver fast, dynamic results. Within Translation API, you can now even choose to use custom model translations, streamlining your workflow within the same client library.</textarea>
+          </div>
+          <input class='btn btn-primary' id='btn_trans' type='button' value='Translate'>
+        </div>
+        <div class='col'>
+          <div class="form-group">
+            <label for="txa_out">Output (TH)</label>
+            <textarea class="form-control" id="txa_out" rows="10"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+
+      $('#btn_trans').click(() => {
+        $('#btn_trans').attr('disabled', true);
+
+        let src = $('#txa_in').val();
+        $.ajax({
+          url: '/translate',
+          type: 'POST',
+          contentType: 'application/json',
+          dataType: 'json',
+          data: JSON.stringify({
+            text: src,
+          }),
+          success: (resp) => {
+            $('#txa_out').val(resp.translatedText);
+            $('#btn_trans').attr('disabled', false);
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
