@@ -18,14 +18,26 @@
       <div class='row'>
         <div class='col-md'>
           <div class="form-group">
-            <label for="txa_in">Input (EN)</label>
+            <label for="txa_in">Input</label>
+            <select id='from'>
+              <option value='en'>English</option>
+              <option value='de'>German</option>
+              <option value='zh'>Chinese</option>
+              <option value='th'>Thai</option>
+            </select>
             <textarea class="form-control" id="txa_in" rows="10">Want your website and apps to instantly translate texts into more than one hundred languages? Translation API uses Google’s pre-trained neural machine translation to deliver fast, dynamic results. Within Translation API, you can now even choose to use custom model translations, streamlining your workflow within the same client library.</textarea>
           </div>
           <input class='btn btn-primary' id='btn_trans' type='button' value='Translate'>
         </div>
         <div class='col-md'>
           <div class="form-group">
-            <label for="txa_out">Output (TH)</label>
+            <label for="txa_out">Output</label>
+            <select id='to'>
+              <option value='th'>Thai</option>
+              <option value='en'>English</option>
+              <option value='de'>German</option>
+              <option value='zh'>Chinese</option>
+            </select>
             <textarea class="form-control" id="txa_out" rows="10"></textarea>
           </div>
         </div>
@@ -41,6 +53,15 @@
     <script>
 
       $('#btn_trans').click(() => {
+
+        // validate
+        let from = $('#from').val();
+        let to = $('#to').val();
+        if(from == to){
+          alert('Change input or output');
+          return;
+        }
+
         $('#btn_trans').attr('disabled', true);
 
         let src = $('#txa_in').val();
@@ -51,6 +72,8 @@
           dataType: 'json',
           data: JSON.stringify({
             text: src,
+            from: $('#from').val(),
+            to: $('#to').val(),
           }),
           success: (resp) => {
             $('#txa_out').val(resp.translatedText);
